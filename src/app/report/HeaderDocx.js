@@ -146,7 +146,6 @@ export const exportFullAdministrativeDocx = async (
                 }),
                 new TextRun({
                     text: `${item.amount}đ`,
-                    bold: true,
                     font: 'Times New Roman',
                     size: 26,
                 }),
@@ -667,7 +666,7 @@ export const exportFullAdministrativeDocx = async (
                                 size: 26,
                             }),
                             new TextRun({
-                                text: 'Căn cứ vào BB sự vụ/ hiện trạng tại thời điểm phát sinh ngày 26/09/2021',
+                                text: 'Căn cứ vào BB sự việc/ hiện trạng tại thời điểm phát sinh ngày 26/09/2021',
                                 font: 'Times New Roman',
                                 size: 26,
                             }),
@@ -890,5 +889,5 @@ export const exportFullAdministrativeDocx = async (
     });
 
     const blob = await Packer.toBlob(doc);
-    saveAs(blob, `Bien_Ban_Quy_Trach_Nhiem_Den_Bu.docx`);
+    saveAs(blob, `Bien_Ban_Den_Bu.docx`);
 };

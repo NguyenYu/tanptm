@@ -52,7 +52,7 @@ const Report = () => {
             name: '',
             route: 'HBQN10',
             role: 'NVBT',
-            amount: 0,
+            amount: '',
             reason: 'không tuân thủ đúng quy trình khai thác',
         },
         onSubmit: (values, { resetForm }) => {
