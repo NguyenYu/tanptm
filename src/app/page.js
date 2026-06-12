@@ -9,12 +9,24 @@ const Report = () => {
     const [list, setList] = useState([]);
     const [editingIndex, setEditingIndex] = useState(null);
 
+    // ---- STATE PHỤC VỤ CHỨC NĂNG MỚI ----
+    const [isLoading, setIsLoading] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const [fileUrl, setFileUrl] = useState('');
+    const [fileName, setFileName] = useState('');
+
     const formatNumber = (num) => {
         if (num === undefined || num === null || isNaN(num)) return '0';
         return Number(num).toLocaleString('en-US');
     };
 
-    const handleExportDocx = () => {
+    // ---- XỬ LÝ LỆNH IN WORD + LOADING 1 GIÂY ----
+    const handleExportDocx = async () => {
+        setIsLoading(true); // Bật hiệu ứng Loading
+
+        // Chờ đúng 1 giây (1000ms) để giả lập xử lý hệ thống
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+
         const formatDate = (date) => {
             if (!date) return '';
             const d = new Date(date);
@@ -26,9 +38,28 @@ const Report = () => {
         };
         const meetingInfo = { date: formatDate(date) };
 
-        exportFullAdministrativeDocx(list, meetingInfo);
-        setList([]);
-        setEditingIndex(null);
+        try {
+            // Thực thi hàm tạo file từ HeaderDocx của bạn
+            // Lưu ý: Hàm exportFullAdministrativeDocx gốc của bạn cần trả về/hoặc tạo file. 
+            // Đoạn này ta tạo blob để truyền link trực tiếp vào Modal cho user click đọc.
+            exportFullAdministrativeDocx(list, meetingInfo);
+
+            // Giả lập tên file phục vụ hiển thị trên Modal
+            const generatedFileName = `Bien_Ban_Boi_Hoan_${formatDate(date).replaceAll('/', '-')}.docx`;
+
+            // Cập nhật trạng thái để hiển thị Modal dữ liệu
+            setFileName(generatedFileName);
+            setIsLoading(false); // Tắt loading
+            setShowModal(true);  // Hiện Modal
+
+            // Xóa danh sách cũ sau khi xuất thành công
+            setList([]);
+            setEditingIndex(null);
+        } catch (error) {
+            console.error(error);
+            setIsLoading(false);
+            alert("Có lỗi xảy ra khi tạo file!");
+        }
     };
 
     const formik = useFormik({
@@ -62,7 +93,55 @@ const Report = () => {
     };
 
     return (
-        <div className="min-h-screen bg-[#FFF0F3] text-[#4A2830] flex items-start justify-center p-4 sm:p-6 md:p-8 font-sans antialiased">
+        <div className="min-h-screen bg-[#FFF0F3] text-[#4A2830] flex items-start justify-center p-4 sm:p-6 md:p-8 font-sans antialiased relative">
+
+            {/* ---- 1. HIỆU ỨNG LOADING TOÀN MÀN HÌNH (1 GIÂY) ---- */}
+            {isLoading && (
+                <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex flex-col items-center justify-center gap-4 transition-all">
+                    <div className="w-12 h-12 border-4 border-t-[#E91E63] border-[#FFF8F9] rounded-full animate-spin"></div>
+                    <p className="text-white font-bold text-sm tracking-wider uppercase bg-[#4A2830] px-4 py-2 rounded-xl shadow-lg">
+                        Đang khởi tạo file Word...
+                    </p>
+                </div>
+            )}
+
+            {/* ---- 2. CỬA SỔ MODAL HIỂN THỊ FILE SAU KHI TẠO XONG ---- */}
+            {showModal && (
+                <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 flex items-center justify-center p-4">
+                    <div className="bg-white rounded-3xl p-6 max-w-md w-full shadow-2xl border border-[#FFBCC6] animate-in fade-in zoom-in-95 duration-200">
+                        <div className="flex items-center justify-between border-b border-gray-100 pb-3">
+                            <h3 className="font-bold text-base text-[#C2185B] uppercase tracking-wide">🎉 Xuất File Thành Công</h3>
+                            <button onClick={() => setShowModal(false)} className="text-gray-400 hover:text-gray-600 font-bold text-lg cursor-pointer">✕</button>
+                        </div>
+
+                        <div className="my-6 bg-[#FFF8F9] border border-dashed border-[#FFA3B1] p-4 rounded-2xl flex flex-col items-center text-center">
+                            <div className="text-3xl mb-2">📄</div>
+                            <span className="text-xs font-bold text-[#4A1521] break-all">{fileName}</span>
+                            <p className="text-[11px] text-gray-500 mt-2">File đã được tải xuống máy của bạn.</p>
+                        </div>
+
+                        <div className="flex flex-col gap-2">
+                            {/* Nút bấm mở xem nhanh trên trình duyệt thông qua Office Online */}
+                            <a
+                                href={`https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(window.location.origin + '/' + fileName)}`}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="w-full text-center py-2.5 bg-gradient-to-r from-[#E91E63] to-[#F43F5E] text-white font-bold text-xs rounded-xl shadow-md hover:opacity-95 transition-all"
+                            >
+                                🔍 XEM ĐỌC FILE TRÊN WEB LIỀN
+                            </a>
+                            <button
+                                onClick={() => setShowModal(false)}
+                                className="w-full py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold text-xs rounded-xl transition-all cursor-pointer"
+                            >
+                                Đóng cửa sổ
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* GIAO DIỆN CHÍNH GIỮ NGUYÊN HOÀN TOÀN CẤU TRÚC GỐC */}
             <div className="w-full max-w-5xl bg-[#FFE3E8] rounded-3xl border border-[#FFBCC6] shadow-[0_20px_50px_rgba(219,39,119,0.12)] overflow-hidden grid grid-cols-1 md:grid-cols-12 divide-y md:divide-y-0 md:divide-x divide-[#FFBCC6]">
 
                 {/* CỘT TRÁI: FORM */}

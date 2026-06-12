@@ -19,7 +19,7 @@ const SideBar = () => {
 
             {/* Header Sidebar: Logo thương hiệu */}
             <div className="flex items-center gap-3 px-4 mb-6">
-                <div className="bg-gradient-to-br from-[#E91E63] to-[#F43F5E] size-10 rounded-xl flex items-center justify-center shadow-[0_4px_12px_rgba(233,30,99,0.2)]">
+                <div className="bg-linear-to-br from-[#E91E63] to-[#F43F5E] size-10 rounded-xl flex items-center justify-center shadow-[0_4px_12px_rgba(233,30,99,0.2)]">
                     <span className="text-white font-extrabold text-xl">S</span>
                 </div>
                 <div className="flex flex-col">
@@ -37,7 +37,7 @@ const SideBar = () => {
             {menuItems.map((item) => {
                 const Icon = item.icon;
                 return (
-                    <div key={item.id} className="w-full flex items-center h-[46px]">
+                    <div key={item.id} className="w-full flex items-center h-11.5">
                         <Link
                             href={item.href}
                             /* Hover đổi nền sang màu hồng đậm loang nhẹ, chữ đổi sắc hồng đậm nét */
