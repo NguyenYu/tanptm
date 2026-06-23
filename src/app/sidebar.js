@@ -1,11 +1,25 @@
 import Link from 'next/link';
-import { ClipboardCheck, LayoutDashboard, Settings, UserCircle, FolderKanban, FileText, BarChart3, HelpCircle } from 'lucide-react';
+import {
+    ClipboardCheck,
+    LayoutDashboard,
+    Settings,
+    UserCircle,
+    FolderKanban,
+    FileText,
+    BarChart3,
+    HelpCircle,
+} from 'lucide-react';
 
 const SideBar = () => {
     const menuItems = [
         { id: 1, label: 'Bảng điều khiển', href: '/', icon: LayoutDashboard },
-        { id: 2, label: 'Biên bản', href: '/', icon: ClipboardCheck },
-        { id: 3, label: 'Báo cáo', href: '/', icon: BarChart3 },
+        { id: 2, label: 'Biên bản', href: '/flower', icon: ClipboardCheck },
+        {
+            id: 3,
+            label: 'Tạo QRcode',
+            href: '/generate-qrcode',
+            icon: BarChart3,
+        },
         { id: 4, label: 'Dự án', href: '/', icon: FolderKanban },
         { id: 5, label: 'Tài liệu', href: '/', icon: FileText },
         { id: 6, label: 'Hồ sơ cá nhân', href: '/', icon: UserCircle },
@@ -15,21 +29,24 @@ const SideBar = () => {
 
     return (
         /* NỀN SIDEBAR: Đổi sang màu hồng sáng mềm mại, đồng điệu với trang chính */
-        <div className="h-full w-full bg-[#FFE3E8] p-5 flex flex-col gap-3 border-r border-[#FFBCC6]">
-
+        <div className="fixed flex h-full w-60 flex-col gap-3 border-r bg-[#FFE3E8] p-5">
             {/* Header Sidebar: Logo thương hiệu */}
-            <div className="flex items-center gap-3 px-4 mb-6">
-                <div className="bg-linear-to-br from-[#E91E63] to-[#F43F5E] size-10 rounded-xl flex items-center justify-center shadow-[0_4px_12px_rgba(233,30,99,0.2)]">
-                    <span className="text-white font-extrabold text-xl">S</span>
+            <div className="mb-6 flex items-center gap-3 px-4">
+                <div className="flex size-10 items-center justify-center rounded-xl bg-linear-to-br from-[#E91E63] to-[#F43F5E] shadow-[0_4px_12px_rgba(233,30,99,0.2)]">
+                    <span className="text-xl font-extrabold text-white">S</span>
                 </div>
                 <div className="flex flex-col">
-                    <span className="text-[#4A1521] text-base font-bold ">Quản Lý</span>
-                    <span className="text-[#9C6D77] text-xs font-semibold">Báo Cáo & Biên Bản</span>
+                    <span className="text-base font-bold text-[#4A1521]">
+                        Quản Lý
+                    </span>
+                    <span className="text-xs font-semibold text-[#9C6D77]">
+                        Báo Cáo & Biên Bản
+                    </span>
                 </div>
             </div>
 
             {/* Menu Sections */}
-            <div className="text-[#884D59] text-[11px] font-bold px-4 mb-1 uppercase tracking-wider">
+            <div className="mb-1 px-4 text-[11px] font-bold tracking-wider text-[#884D59] uppercase">
                 Menu Chính
             </div>
 
@@ -37,14 +54,19 @@ const SideBar = () => {
             {menuItems.map((item) => {
                 const Icon = item.icon;
                 return (
-                    <div key={item.id} className="w-full flex items-center h-11.5">
+                    <div
+                        key={item.id}
+                        className="flex h-11.5 w-full items-center"
+                    >
                         <Link
                             href={item.href}
                             /* Hover đổi nền sang màu hồng đậm loang nhẹ, chữ đổi sắc hồng đậm nét */
-                            className="group text-[#5C303A] hover:text-[#E91E63] hover:bg-[#FFF0F3] flex h-full w-full items-center gap-3 px-4 transition-all duration-300 rounded-r-3xl border-l-4 border-transparent hover:border-[#E91E63] font-bold text-sm"
+                            className="group flex h-full w-full items-center gap-3 rounded-r-3xl border-l-4 border-transparent px-4 text-sm font-bold text-[#5C303A] transition-all duration-300 hover:border-[#E91E63] hover:bg-[#FFF0F3] hover:text-[#E91E63]"
                         >
-                            <Icon className="size-5 text-[#9C6D77] group-hover:text-[#E91E63] transition-colors duration-300" />
-                            <span className="flex-1 tracking-wide">{item.label}</span>
+                            <Icon className="size-5 text-[#9C6D77] transition-colors duration-300 group-hover:text-[#E91E63]" />
+                            <span className="flex-1 tracking-wide">
+                                {item.label}
+                            </span>
                         </Link>
                     </div>
                 );

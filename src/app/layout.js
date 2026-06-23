@@ -19,15 +19,15 @@ export default function RootLayout({ children }) {
     return (
         <html
             lang="en"
-            className={`${interFont.variable} font-sans  text-[#4A2830] bg-[#FFF0F3] h-full antialiased`}
+            className={`${interFont.variable} h-full bg-[#FFF0F3] font-sans text-[#4A2830] antialiased`}
         >
-            <body className="bg-primary h-full overflow-hidden">
+            <body className="bg-primary h-full">
                 <Header />
                 <div className="flex h-screen flex-row">
                     <div className="bg-primary text-primary-text w-60">
                         <SideBar />
                     </div>
-                    <div className="text-primary-text w-full flex-1 bg-black">
+                    <div className="text-primary-text mt-20 w-full flex-1">
                         {children}
                     </div>
                 </div>
