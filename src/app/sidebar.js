@@ -12,7 +12,12 @@ import {
 
 const SideBar = () => {
     const menuItems = [
-        { id: 1, label: 'Bảng điều khiển', href: '/', icon: LayoutDashboard },
+        {
+            id: 1,
+            label: 'In Tab',
+            href: 'print-all-tab',
+            icon: LayoutDashboard,
+        },
         { id: 2, label: 'Biên bản', href: '/', icon: ClipboardCheck },
         {
             id: 3,
