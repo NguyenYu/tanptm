@@ -1,83 +1,8 @@
 import Link from 'next/link';
-import {
-    ClipboardCheck,
-    LayoutDashboard,
-    Settings,
-    UserCircle,
-    FolderKanban,
-    FileText,
-    BarChart3,
-    HelpCircle,
-} from 'lucide-react';
+import { BarChart3, ClipboardCheck, FileText, FolderKanban, HelpCircle, LayoutDashboard, Settings, UserCircle } from 'lucide-react';
 
-const SideBar = () => {
-    const menuItems = [
-        {
-            id: 1,
-            label: 'In Tab',
-            href: 'print-all-tab',
-            icon: LayoutDashboard,
-        },
-        { id: 2, label: 'Biên bản', href: '/', icon: ClipboardCheck },
-        {
-            id: 3,
-            label: 'Tạo QRcode',
-            href: '/generate-qrcode',
-            icon: BarChart3,
-        },
-        { id: 4, label: 'Dự án', href: '/', icon: FolderKanban },
-        { id: 5, label: 'Tài liệu', href: '/', icon: FileText },
-        { id: 6, label: 'Hồ sơ cá nhân', href: '/', icon: UserCircle },
-        { id: 7, label: 'Cài đặt hệ thống', href: '/', icon: Settings },
-        { id: 8, label: 'Trợ giúp', href: '/', icon: HelpCircle },
-    ];
+const menuItems = [{ label: 'Tổng quan', href: '/print-all-tab', icon: LayoutDashboard }, { label: 'Biên bản', href: '/', icon: ClipboardCheck }, { label: 'Tạo QR code', href: '/generate-qrcode', icon: BarChart3 }, { label: 'Dự án', href: '/', icon: FolderKanban }, { label: 'Tài liệu', href: '/', icon: FileText }, { label: 'Hồ sơ cá nhân', href: '/', icon: UserCircle }];
 
-    return (
-        /* NỀN SIDEBAR: Đổi sang màu hồng sáng mềm mại, đồng điệu với trang chính */
-        <div className="fixed flex h-full w-60 flex-col gap-3 border-r bg-[#FFE3E8] p-5">
-            {/* Header Sidebar: Logo thương hiệu */}
-            <div className="mb-6 flex items-center gap-3 px-4">
-                <div className="flex size-10 items-center justify-center rounded-xl bg-linear-to-br from-[#E91E63] to-[#F43F5E] shadow-[0_4px_12px_rgba(233,30,99,0.2)]">
-                    <span className="text-xl font-extrabold text-white">S</span>
-                </div>
-                <div className="flex flex-col">
-                    <span className="text-base font-bold text-[#4A1521]">
-                        Quản Lý
-                    </span>
-                    <span className="text-xs font-semibold text-[#9C6D77]">
-                        Báo Cáo & Biên Bản
-                    </span>
-                </div>
-            </div>
-
-            {/* Menu Sections */}
-            <div className="mb-1 px-4 text-[11px] font-bold tracking-wider text-[#884D59] uppercase">
-                Menu Chính
-            </div>
-
-            {/* Danh sách menu */}
-            {menuItems.map((item) => {
-                const Icon = item.icon;
-                return (
-                    <div
-                        key={item.id}
-                        className="flex h-11.5 w-full items-center"
-                    >
-                        <Link
-                            href={item.href}
-                            /* Hover đổi nền sang màu hồng đậm loang nhẹ, chữ đổi sắc hồng đậm nét */
-                            className="group flex h-full w-full items-center gap-3 rounded-r-3xl border-l-4 border-transparent px-4 text-sm font-bold text-[#5C303A] transition-all duration-300 hover:border-[#E91E63] hover:bg-[#FFF0F3] hover:text-[#E91E63]"
-                        >
-                            <Icon className="size-5 text-[#9C6D77] transition-colors duration-300 group-hover:text-[#E91E63]" />
-                            <span className="flex-1 tracking-wide">
-                                {item.label}
-                            </span>
-                        </Link>
-                    </div>
-                );
-            })}
-        </div>
-    );
-};
-
-export default SideBar;
+export default function SideBar() {
+    return <aside className="fixed inset-y-0 left-0 z-40 hidden w-64 flex-col border-r border-slate-200 bg-white px-4 py-6 lg:flex"><div className="flex items-center gap-3 px-3"><div className="flex size-10 items-center justify-center rounded-xl bg-pink-600 text-lg font-extrabold text-white shadow-lg shadow-pink-600/20">S</div><div><p className="text-sm font-bold text-slate-900">Quản Lý</p><p className="text-[11px] font-medium text-slate-400">Báo cáo & biên bản</p></div></div><div className="mt-10 mb-3 px-3 text-[10px] font-bold uppercase tracking-[.16em] text-slate-400">Menu chính</div><nav className="flex flex-col gap-1">{menuItems.map(({ label, href, icon: Icon }) => <Link key={label} href={href} className={`group flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-semibold transition ${label === 'Biên bản' ? 'bg-pink-50 text-pink-700' : 'text-slate-500 hover:bg-slate-50 hover:text-pink-600'}`}><Icon className="size-[18px] transition group-hover:scale-105" />{label}{label === 'Biên bản' && <span className="ml-auto size-1.5 rounded-full bg-pink-600" />}</Link>)}</nav><div className="mt-auto rounded-2xl bg-slate-50 p-4"><div className="mb-3 flex size-9 items-center justify-center rounded-xl bg-white text-pink-600 shadow-sm"><HelpCircle className="size-4" /></div><p className="text-xs font-bold text-slate-800">Cần hỗ trợ?</p><p className="mt-1 text-[11px] leading-5 text-slate-500">Xem hướng dẫn sử dụng hệ thống.</p><button className="mt-3 text-xs font-bold text-pink-600 hover:text-pink-700">Xem hướng dẫn →</button></div><Link href="/" className="mt-4 flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-semibold text-slate-500 transition hover:bg-slate-50 hover:text-pink-600"><Settings className="size-[18px]" /> Cài đặt hệ thống</Link></aside>;
+}
